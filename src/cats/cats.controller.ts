@@ -2,6 +2,9 @@ import { Controller, Get, Post, Put, Delete, HttpCode, Req, Res, Param, Body, Pa
 import { UpdateBreedDto } from './dto/catBreed.dto';
 import { CatFoodDTO } from './dto/catFood.dto';
 import { ListAllEntities } from './dto/cats.dto';
+import { CreateCatDto } from "./dto/createCatDto";
+import { CatsService } from "./cats.service";
+import { Cat } from "./interfaces/cat.interface";
 
 // CLI controller generation command $ nest g controller cats
 
@@ -11,6 +14,11 @@ import { ListAllEntities } from './dto/cats.dto';
 // can take a host option to require the host to match a value
 @Controller('cats')
 export class CatsController {
+
+    // The CatsService is injected through this constructor
+    // The use of the private syntax here allows for declaring
+    // and initializing the CatsService in the same location
+    constructor(private catsService: CatsService) {}
 
     // request method decorator
     // creates a handler for an endpoint
@@ -31,7 +39,8 @@ export class CatsController {
     // method returns primitive Javascript types as unserialized values
     // and objects and arrays are returned as serialized JSON
     // the method returns a 200 OK and the string 'This action returns all cats'
-    /* async tag makes this an asyncronous function */ findAll(@Query() query: ListAllEntities): string /* async functions must return a promise: Promise<any[]> */ {
+    /* async tag makes this an asyncronous function */ 
+    async findAll(@Query() query: ListAllEntities): Promise<Cat[]> /* async functions must return a promise: Promise<any[]> */ {
         /* including @Req() decorator tells Nest to inject express request object in handler @Req() request: Request */
         /* including optional @Res decorator in the handler instructs Nest to inject Express response object  @Res() response: Response */ 
         /* other injectable decorators 
@@ -43,7 +52,7 @@ export class CatsController {
            @HostParam() => req.hosts
         */
         
-        return `This action returns all cats (limit: ${query.limit})`;
+        return this.catsService.findAll();
     }
 
     /* Route Parameters */
@@ -60,14 +69,21 @@ export class CatsController {
     // this makes the route parameters available
     // as properties of the decorated method parameter
     // (in this case params)
-    findOne(@Param('id') catId: string) {
+    async findOne(@Param('id') catId: Promise<Cat>) {
 
         // log the id
         console.log(catId);
 
         // request returns this string with the id targeted in the params
-        return `This action returns a cat with the id of ${catId}`;
+        return this.catsService.findOne();
         
+    }
+
+    // request method decorator POST
+    @Post()
+
+    async createCat(@Body() createCatDto: CreateCatDto) {
+        this.catsService.create(createCatDto)
     }
 
     // request method decorator POST
