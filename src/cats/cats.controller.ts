@@ -3,6 +3,8 @@ import { UpdateBreedDto } from './dto/catBreed.dto';
 import { CatFoodDTO } from './dto/catFood.dto';
 import { ListAllEntities } from './dto/cats.dto';
 
+// CLI controller generation command $ nest g controller cats
+
 
 // @Controller decorator defines a basic controller (required)
 // controller prefix is 'cats' (optional)
