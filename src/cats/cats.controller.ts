@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, HttpCode, Req, Res, Param, Body, Patch, All, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, HttpCode, Req, Res, Param, Body, Patch, All, Query, ParseIntPipe } from '@nestjs/common';
 import { UpdateBreedDto } from './dto/catBreed.dto';
 import { CatFoodDTO } from './dto/catFood.dto';
 import { ListAllEntities } from './dto/cats.dto';
@@ -69,13 +69,14 @@ export class CatsController {
     // this makes the route parameters available
     // as properties of the decorated method parameter
     // (in this case params)
-    async findOne(@Param('id') catId: Promise<Cat>) {
+    // to use a validation pipe, it must be bound at the method parameter
+    async findOne(@Param('id', ParseIntPipe) catId: number): Promise<Cat[]> {
 
         // log the id
         console.log(catId);
 
         // request returns this string with the id targeted in the params
-        return this.catsService.findOne();
+        return this.catsService.findOne(catId);
         
     }
 

@@ -8,6 +8,8 @@ have the same application domain,
 ex. User data would me grouped in a feature module
 and exported to the app module*/
 
+// @Global decorator establishes the module as globally scoped
+
 @Module({
     controllers: [CatsController],
     providers: [CatsService],

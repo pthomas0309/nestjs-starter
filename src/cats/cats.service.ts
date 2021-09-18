@@ -13,7 +13,7 @@ export class CatsService {
         return this.cats;
     }
 
-    findOne(): Cat[] {
+    findOne(catId: number): Cat[] {
         return this.cats
     } 
 }
