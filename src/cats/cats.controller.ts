@@ -69,8 +69,8 @@ export class CatsController {
     // this makes the route parameters available
     // as properties of the decorated method parameter
     // (in this case params)
-    // to use a validation pipe, it must be bound at the method parameter
-    async findOne(@Param('id', ParseIntPipe) catId: number): Promise<Cat[]> {
+    // to use a validation pipe, it must be bound at the method parameter /* pipes will either transfer the input data to the desired form or validate the data */
+    async findOne(@Param('id', ParseIntPipe) catId: number): Promise<Cat[]> { // here the ParseIntPipe insures the method parameter value is transformed to an integer
 
         // log the id
         console.log(catId);
